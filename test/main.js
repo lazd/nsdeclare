@@ -50,4 +50,28 @@ describe('nsdeclare()', function() {
   it('should do nothing if namespace equals root', function() {
     nsdeclare('global', { root: 'global' }).should.equal('');
   });
+
+  it('should return a string by default', function () {
+    // same test as first test
+    var declaration = nsdeclare('MyApp.Templates.Final');
+
+    equalsExpected(declaration, 'Basic declaration.js');
+  });
+
+  it('should return an object', function () {
+    // same test as first test
+    var declaration = nsdeclare('MyApp.Templates.Final', { result: 'object'});
+
+    declaration.should.be.an.object;
+    declaration.should.have.property('namespace', 'this["MyApp"]["Templates"]["Final"]');
+    declaration.should.have.property('declaration');
+    equalsExpected(declaration.declaration, 'Basic declaration.js');
+  });
+
+  it('should return a string if invalid result', function () {
+    // same test as first test
+    var declaration = nsdeclare('MyApp.Templates.Final', { result: 'foo'});
+    equalsExpected(declaration, 'Basic declaration.js');
+  });
+
 });
