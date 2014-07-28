@@ -82,3 +82,45 @@ Result:
 global["MyApp"] = global["MyApp"] || {};
 global["MyApp"]["Templates"] = global["MyApp"]["Templates"] || {};
 ```
+
+## Response
+
+You can choose to ask for the declaration string, which is the default, or ask to have an object as the reponse with the following format:
+
+  * `namespace`: `string` object corresponding to the namespace,
+  * `declaration`: `string` the declaration
+
+### Declaration as a string
+
+```js
+var declare = require('nsdeclare');
+
+var declaration = declare('MyApp.Templates', { result: 'string' });
+// or default being `string`, simply
+var declaration = declare('MyApp.Templates');
+```
+
+Result:
+```js
+global["MyApp"] = global["MyApp"] || {};
+global["MyApp"]["Templates"] = global["MyApp"]["Templates"] || {};
+```
+
+### Declaration as an object
+
+```js
+var declare = require('nsdeclare');
+
+var declaration = declare('MyApp.Templates', { result: 'object' });
+```
+
+Result:
+```js
+{
+  namespace: 'this["MyApp"]["Templates"]',
+  declaration: '
+    this["MyApp"] = this["MyApp"] || {};
+    this["MyApp"]["Templates"] = this["MyApp"]["Templates"] || {};
+  '
+}
+```

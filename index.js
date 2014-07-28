@@ -3,6 +3,7 @@ module.exports = function(ns, options) {
   var separator = options && options.separator !== undefined ? options.separator : '\n';
   var curPath = options && options.root || 'this'; // Don't support empty roots
   var value = options && options.value;
+  var result = options && options.result === 'object' ? options.result : 'string'; // format
 
   var doAssignment = value !== undefined;
   var output = [];
@@ -37,5 +38,8 @@ module.exports = function(ns, options) {
   	output.push(curPath+' = '+value+';');
   }
 
-  return output.join(separator);
+  return result !== 'object' ? output.join(separator) : {
+    namespace: curPath,
+    declaration: output.join(separator)
+  };
 };
