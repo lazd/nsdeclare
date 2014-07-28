@@ -51,7 +51,7 @@ describe('nsdeclare()', function() {
     nsdeclare('global', { root: 'global' }).should.equal('');
   });
 
-  it('should return a string by default', function () {
+  it('should return just the declaration by default', function () {
     // same test as first test
     var declaration = nsdeclare('MyApp.Templates.Final');
 
@@ -60,7 +60,7 @@ describe('nsdeclare()', function() {
 
   it('should return an object', function () {
     // same test as first test
-    var declaration = nsdeclare('MyApp.Templates.Final', { result: 'object'});
+    var declaration = nsdeclare('MyApp.Templates.Final', { response: 'details'});
 
     declaration.should.be.an.object;
     declaration.should.have.property('namespace', 'this["MyApp"]["Templates"]["Final"]');
@@ -68,9 +68,9 @@ describe('nsdeclare()', function() {
     equalsExpected(declaration.declaration, 'Basic declaration.js');
   });
 
-  it('should return a string if invalid result', function () {
+  it('should return the declaration if for invalid response', function () {
     // same test as first test
-    var declaration = nsdeclare('MyApp.Templates.Final', { result: 'foo'});
+    var declaration = nsdeclare('MyApp.Templates.Final', { response: 'foo'});
     equalsExpected(declaration, 'Basic declaration.js');
   });
 

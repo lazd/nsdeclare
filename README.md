@@ -1,7 +1,7 @@
-# nsdeclare
+# nsdeclare [![NPM version][npm-image]][npm-url] [![Build status][travis-image]][travis]
 > Safely declare a namespace using dot notation
 
-## Namespace declaration
+## Usage
 
 ```js
 var declare = require('nsdeclare');
@@ -15,7 +15,14 @@ this["MyApp"] = this["MyApp"] || {};
 this["MyApp"]["Templates"] = this["MyApp"]["Templates"] || {};
 ```
 
-## Assignment
+## Options
+
+Options can be passed as the second argument to `nsdeclare`.
+
+### value
+Type: `String`
+
+By passing `options.value`, you can use `nsdeclare` to both declare and safely assign properties of a namespace:
 
 ```js
 var declare = require('nsdeclare');
@@ -30,13 +37,18 @@ this["MyApp"]["Templates"] = this["MyApp"]["Templates"] || {};
 this["MyApp"]["Templates"]["Main"] = function() { return "Main"; };
 ```
 
-## Avoiding redeclaration
+### declared
+Type: `Object`
+
+To avoid redeclaration, you can pass a list of already declared namespace parts as `options.declared`:
 
 ```js
 var declare = require('nsdeclare');
 
 var options = {
-  declared: {}
+  declared: {
+    'MyApp': true
+  }
 };
 
 var declaration = [
@@ -49,14 +61,20 @@ var declaration = [
 
 Result:
 ```js
-this["MyApp"] = this["MyApp"] || {};
 this["MyApp"]["Views"] = this["MyApp"]["Views"] || {};
 this["MyApp"]["Templates"] = this["MyApp"]["Templates"] || {};
 this["MyApp"]["Models"] = this["MyApp"]["Models"] || {};
 this["MyApp"]["Collections"] = this["MyApp"]["Collections"] || {};
 ```
 
-## Custom separators
+Note that, if you don't pass `options.declared` and a namespace part is already declared, `nsdeclare` will not overwrite it.
+
+### separator
+Type: `String`
+
+Default: `'\n'`
+
+If you would like to separate declaration parts with something other than `\n`, you can pass it as `options.separator`:
 
 ```js
 var declare = require('nsdeclare');
@@ -69,7 +87,12 @@ Result:
 this["MyApp"] = this["MyApp"] || {};this["MyApp"]["Templates"] = this["MyApp"]["Templates"] || {};
 ```
 
-## Custom root
+### root
+Type: `String`
+
+Default: `'this'`
+
+By default, `nsdeclare` will declare namespaces within the `this` object (which defaults to `window` in browser environments). You can change this behavior with `options.root`:
 
 ```js
 var declare = require('nsdeclare');
@@ -83,44 +106,31 @@ global["MyApp"] = global["MyApp"] || {};
 global["MyApp"]["Templates"] = global["MyApp"]["Templates"] || {};
 ```
 
-## Response
+### response
+Type: `String`  
+Default: `declaration`
 
-You can choose to ask for the declaration string, which is the default, or ask to have an object as the reponse with the following format:
+By default, `nsdeclare` will return the declaration as a string. In some cases, you might want additional details such as a safe reference to the namespace itself. Passing `response: 'details'` will cause `nsdeclare` to return an object with the following properties:
 
-  * `namespace`: `string` object corresponding to the namespace,
-  * `declaration`: `string` the declaration
-
-### Declaration as a string
-
-```js
-var declare = require('nsdeclare');
-
-var declaration = declare('MyApp.Templates', { result: 'string' });
-// or default being `string`, simply
-var declaration = declare('MyApp.Templates');
-```
-
-Result:
-```js
-global["MyApp"] = global["MyApp"] || {};
-global["MyApp"]["Templates"] = global["MyApp"]["Templates"] || {};
-```
-
-### Declaration as an object
+  * `namespace` - The namespace itself as a `String`
+  * `declaration` - The declaration of the namespace as a `String`
 
 ```js
 var declare = require('nsdeclare');
 
-var declaration = declare('MyApp.Templates', { result: 'object' });
+var declaration = declare('MyApp.Templates', { response: 'object' });
 ```
 
 Result:
 ```js
 {
   namespace: 'this["MyApp"]["Templates"]',
-  declaration: '
-    this["MyApp"] = this["MyApp"] || {};
-    this["MyApp"]["Templates"] = this["MyApp"]["Templates"] || {};
-  '
+  declaration: 'this["MyApp"] = this["MyApp"] || {};\nthis["MyApp"]["Templates"] = this["MyApp"]["Templates"] || {};'
 }
 ```
+
+[travis]: http://travis-ci.org/lazd/nsdeclare
+[travis-image]: https://secure.travis-ci.org/lazd/nsdeclare.png?branch=master
+
+[npm-url]: https://npmjs.org/package/nsdeclare
+[npm-image]: https://badge.fury.io/js/nsdeclare.png
