@@ -118,7 +118,7 @@ By default, `nsdeclare` will return the declaration as a string. In some cases, 
 ```js
 var declare = require('nsdeclare');
 
-var declaration = declare('MyApp.Templates', { response: 'object' });
+var declaration = declare('MyApp.Templates', { response: 'details' });
 ```
 
 Result:
