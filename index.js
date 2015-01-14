@@ -11,7 +11,7 @@ module.exports = function(ns, options) {
 
   if (ns !== curPath) {
     ns = ns.replace(/\[["'](.*?)["']\]/g, function(str, m, index) {
-      return '.' + m.replace(/\./g, inKeyDotplaceholder);
+      return (index ? '.' : '') + m.replace(/\./g, inKeyDotplaceholder);
     });
     var nsParts = ns.split('.').map(function(key) {
       return key.replace(new RegExp(inKeyDotplaceholder, 'g'), '.');
