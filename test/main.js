@@ -42,6 +42,11 @@ describe('nsdeclare()', function() {
     equalsExpected(declaration, 'Custom separator.js');
   });
 
+  it('should maintain legitimate keys with dots using bracket notation', function() {
+    var declaration = nsdeclare('MyApp.Templates["some.thing.here"].Final["another.there"]', { separator: '' });
+    equalsExpected(declaration, 'Keys With Dots.js');
+  });
+
   it('should use provided root', function() {
     var declaration = nsdeclare('MyApp.Templates.Final', { root: 'global' });
     equalsExpected(declaration, 'Custom root.js');

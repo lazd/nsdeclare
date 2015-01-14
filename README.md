@@ -6,13 +6,14 @@
 ```js
 var declare = require('nsdeclare');
 
-var declaration = declare('MyApp.Templates');
+var declaration = declare('MyApp.Templates["Key.With.Dot"]');
 ```
 
 Result:
 ```js
 this["MyApp"] = this["MyApp"] || {};
 this["MyApp"]["Templates"] = this["MyApp"]["Templates"] || {};
+this["MyApp"]["Templates"]["Key.With.Dot"] = this["MyApp"]["Templates"]["Key.With.Dot"] || {};
 ```
 
 ## Options
