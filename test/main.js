@@ -42,6 +42,16 @@ describe('nsdeclare()', function() {
     equalsExpected(declaration, 'Custom separator.js');
   });
 
+  it('should use provided namespace separator', function() {
+    var declaration = nsdeclare('MyApp_Templates.Final', { nsSeparator: '_' });
+    equalsExpected(declaration, 'Custom namespace separator.js');
+  });
+
+  it('should escape namespace separator with double backslash to allow namespace separator in key', function() {
+    var declaration = nsdeclare('MyApp_Templates\\_Final', { nsSeparator: '_' });
+    equalsExpected(declaration, 'Escaped custom namespace separator.js');
+  });
+
   it('should use provided root', function() {
     var declaration = nsdeclare('MyApp.Templates.Final', { root: 'global' });
     equalsExpected(declaration, 'Custom root.js');
