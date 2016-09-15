@@ -15,6 +15,22 @@ this["MyApp"] = this["MyApp"] || {};
 this["MyApp"]["Templates"] = this["MyApp"]["Templates"] || {};
 ```
 
+### Escaping namespace separator characters
+
+If you wish to use the namespace separator character (e.g. `.`) in the namespace name, you can escape it using `\\`.
+
+```js
+var declare = require('nsdeclare');
+
+var declaration = declare('MyApp.Templates\\.Main');
+```
+
+Result:
+```js
+this["MyApp"] = this["MyApp"] || {};
+this["MyApp"]["Templates.Main"] = this["MyApp"]["Templates.Main"] || {};
+```
+
 ## Options
 
 Options can be passed as the second argument to `nsdeclare`.
@@ -85,6 +101,25 @@ var declaration = declare('MyApp.Templates', { separator: '' });
 Result:
 ```js
 this["MyApp"] = this["MyApp"] || {};this["MyApp"]["Templates"] = this["MyApp"]["Templates"] || {};
+```
+
+### nsSeparator
+Type: `String`
+
+Default: `.`
+
+If you wish to use a different character to indicate where to create separate namespaces, other than `.`, you can pass it as `options.nsSeparator`.
+
+```js
+var declare = require('nsdeclare');
+
+var declaration = declare('MyApp_Templates', { separator: '_' });
+```
+
+Result:
+```js
+this["MyApp"] = this["MyApp"] || {};
+this["MyApp"]["Templates"] = this["MyApp"]["Templates"] || {};
 ```
 
 ### root
