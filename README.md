@@ -113,7 +113,7 @@ If you wish to use a different character to indicate where to create separate na
 ```js
 var declare = require('nsdeclare');
 
-var declaration = declare('MyApp_Templates', { separator: '_' });
+var declaration = declare('MyApp_Templates', { nsSeparator: '_' });
 ```
 
 Result:

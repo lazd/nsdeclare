@@ -51,8 +51,8 @@ module.exports = function(ns, options) {
 function separateNamespaceToParts(ns, nsSeparator) {
 	// Replace escaped separator with non-printable char, split on separator, then re-add escaped separator chars
 	var nsParts = ns.replace("\\" + nsSeparator, '\u000B').split(nsSeparator);
-	for (i in nsParts){
-		nsParts[i] = nsParts[i].replace('\u000B', nsSeparator)
-	};
+	for (var i in nsParts) {
+		nsParts[i] = nsParts[i].replace('\u000B', nsSeparator);
+	}
 	return nsParts;
 }
