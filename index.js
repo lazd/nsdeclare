@@ -4,12 +4,14 @@ module.exports = function(ns, options) {
   var curPath = options && options.root || 'this'; // Don't support empty roots
   var value = options && options.value;
   var response = options && options.response === 'details' ? options.response : 'declaration'; // format
+	var nsSeparator = options && options.nsSeparator !== undefined? options.nsSeparator : '.';
 
   var doAssignment = value !== undefined;
   var output = [];
 
   if (ns !== curPath) {
-    var nsParts = ns.split('.');
+    var nsParts = separateNamespaceToParts(ns, nsSeparator);
+
     nsParts.some(function(curPart, index) {
       if (curPart !== 'this') {
         curPath += '[' + JSON.stringify(curPart) + ']';
@@ -45,3 +47,12 @@ module.exports = function(ns, options) {
     declaration: finalOutput
   } : finalOutput;
 };
+
+function separateNamespaceToParts(ns, nsSeparator) {
+	// Replace escaped separator with non-printable char, split on separator, then re-add escaped separator chars
+	var nsParts = ns.replace("\\" + nsSeparator, '\u000B').split(nsSeparator);
+	for (var i in nsParts) {
+		nsParts[i] = nsParts[i].replace('\u000B', nsSeparator);
+	}
+	return nsParts;
+}
