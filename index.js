@@ -20,7 +20,7 @@ module.exports = function(ns, options) {
         }
         else {
           // Avoid redeclaring parts of the namespace
-          if (!declared || !declared[curPath]) {
+          if (!declared || !declared[curPart]) {
             output.push(curPath + ' = ' + curPath + ' || {};');
           }
 
